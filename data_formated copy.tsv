@@ -1,0 +1,1977 @@
+id	question_stem	choice_text_A	choice_text_B	choice_text_C	choice_text_D	answer_key
+1efda83f	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for reporter (parent) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 35,
+    ""sex"": ""female"",
+    ""role"": ""mom"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 10,
+    ""sex"": ""male"",
+    ""role"": ""son"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey champ, how was school today?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was fun! We had gym class and I got to play soccer.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""That's great! Did you manage to finish your spelling homework?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Not yet... I was thinking of playing outside first.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""How about you do your homework first, then you can go out and play?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""And remember, we need to tidy up your toys before bed.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Okay, but can I watch my favorite show after dinner?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Sure, that sounds fair. Let's also plan a time for reading before bed. How about that?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Reading's cool. I can read the new comic book we got, right?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Absolutely! And remember we're baking cookies together this weekend. Excited?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Totally! I can't wait!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Finish spelling homework"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Play outside"",
+        ""description"": ""Enjoy an hour of outdoor playtime in the backyard.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Tidy up toys"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Watch favorite show"",
+        ""description"": ""Watch one episode after dinner.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Reading time"",
+        ""description"": ""Spend 20 minutes reading before bedtime.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Bake cookies together"",
+        ""description"": ""Plan for Saturday afternoon.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Help set the table"",
+        ""description"": ""Set up for dinner each evening.""
+      }
+    }
+  ],
+  ""user_prompt"": ""My son lacks a routine that includes chores and relaxation""
+}"	{'task': 'Assign more time for watching favorite shows.', 'description': 'Encourage your son to relax more by watching additional episodes after dinner.'}	{'task': 'Create a detailed study-only schedule.', 'description': 'Focus on setting aside the majority of the day for schoolwork, limiting breaks and relaxation.'}	{'task': 'Work on a Balanced Routine Creation Together.', 'description': 'Collaborate with your son to create a daily schedule that balances his responsibilities and downtime. Begin by listing his chores, schoolwork, and hobbies, then assign specific times for each throughout the day. Make sure to include moments for relaxation, physical activity, and spending time outdoors. Encourage him to follow the routine consistently and review it weekly, making adjustments as needed. Offer your support through reminders or by participating in activities if he needs assistance, helping him build a balanced and sustainable routine over time.'}	{'task': 'Prioritize only outdoor activities.', 'description': 'Plan the day heavily around playing outside, minimizing time spent on household chores or schoolwork.'}	C
+124dafec	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for assignee (child) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 35,
+    ""sex"": ""female"",
+    ""role"": ""mom"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 10,
+    ""sex"": ""male"",
+    ""role"": ""son"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey champ, how was school today?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was fun! We had gym class and I got to play soccer.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""That's great! Did you manage to finish your spelling homework?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Not yet... I was thinking of playing outside first.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""How about you do your homework first, then you can go out and play?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""And remember, we need to tidy up your toys before bed.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Okay, but can I watch my favorite show after dinner?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Sure, that sounds fair. Let's also plan a time for reading before bed. How about that?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Reading's cool. I can read the new comic book we got, right?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Absolutely! And remember we're baking cookies together this weekend. Excited?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Totally! I can't wait!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Finish spelling homework"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Play outside"",
+        ""description"": ""Enjoy an hour of outdoor playtime in the backyard.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Tidy up toys"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Watch favorite show"",
+        ""description"": ""Watch one episode after dinner.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Reading time"",
+        ""description"": ""Spend 20 minutes reading before bedtime.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Bake cookies together"",
+        ""description"": ""Plan for Saturday afternoon.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Help set the table"",
+        ""description"": ""Set up for dinner each evening.""
+      }
+    }
+  ],
+  ""user_prompt"": ""My son lacks a routine that includes chores and relaxation""
+}"	{'task': 'Focus solely on physical activities.', 'description': 'Dedicate most of the day to sports and outdoor play, ignoring schoolwork and household responsibilities.'}	{'task': 'Create and Follow Your Balanced Daily Routine.', 'description': 'Design your daily schedule that includes time for chores, physical activities, schoolwork, and relaxation. Choose specific times for each during the day, such as setting aside 20 minutes for tidying your room, 30 minutes for a workout or playing basketball. Use physical activities, outdoor time, or hobbies as breaks to recharge between chores and schoolwork. Follow the routine for a week, and adjust it as needed to fit your needs. Track your progress and reflect on how this balance helps you feel more organized and energized.'}	{'task': 'Only focus on schoolwork.', 'description': 'Spend the entire day completing homework and educational activities, leaving no time for play.'}	{'task': 'Skip chores to focus on hobbies.', 'description': 'Allocate time only to fun activities, avoiding any schoolwork or chores.'}	B
+49b4cd48	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for reporter (parent) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 45,
+    ""sex"": ""male"",
+    ""role"": ""dad"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 15,
+    ""sex"": ""female"",
+    ""role"": ""daughter"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey kiddo, how was your day?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was good. We had a fun biology lab today.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Nice! By the way, have you thought about setting up that budget planner yet?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Not really... I was hoping to hang out with my friends first.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember, planning your expenses is important.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""And don't forget, we're working on your savings tracker this weekend.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Ugh, but can I join my friends for the movie night after?""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Set up a budget planner"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Watch a movie with friends"",
+        ""description"": ""Go to the cinema with friends on Saturday night.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Organize savings tracker"",
+        ""description"": ""Set up a simple tracking system to monitor savings.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Review monthly expenses"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Research apps for tracking expenses"",
+        ""description"": ""Look into different expense tracking apps.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Create a weekly allowance report"",
+        ""description"": ""List out what was spent each week.""
+      }
+    }
+  ],
+  ""user_prompt"": ""I want my daughter to develop a system for tracking her spending and saving.""
+}"	{'task': 'Allow unrestricted spending for learning.', 'description': 'Encourage your daughter to spend without any budget constraints to learn from experience.'}	{'task': 'Encourage financial planning discussions', 'description': 'Have a conversation with your daughter about the benefits of budgeting and saving. Share your experience, how family expenses and savings are managed by you.'}	{'task': 'Set a savings goal with rewards.', 'description': 'Create a system where achieving a savings milestone results in a small reward.'}	{'task': 'Organize a family financial workshop.', 'description': 'Set up a family session on financial literacy and discuss budgeting techniques.'}	B
+cd0cc9de	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for assignee (child) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 45,
+    ""sex"": ""male"",
+    ""role"": ""dad"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 15,
+    ""sex"": ""female"",
+    ""role"": ""daughter"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey kiddo, how was your day?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was good. We had a fun biology lab today.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Nice! By the way, have you thought about setting up that budget planner yet?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Not really... I was hoping to hang out with my friends first.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember, planning your expenses is important.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""And don't forget, we're working on your savings tracker this weekend.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Ugh, but can I join my friends for the movie night after?""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Set up a budget planner"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Watch a movie with friends"",
+        ""description"": ""Go to the cinema with friends on Saturday night.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Organize savings tracker"",
+        ""description"": ""Set up a simple tracking system to monitor savings.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Review monthly expenses"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Research apps for tracking expenses"",
+        ""description"": ""Look into different expense tracking apps.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Create a weekly allowance report"",
+        ""description"": ""List out what was spent each week.""
+      }
+    }
+  ],
+  ""user_prompt"": ""I want my daughter to develop a system for tracking her spending and saving.""
+}"	{'task': 'Join friends for spending advice.', 'description': 'Gather advice from friends on how to manage finances in a fun way.'}	{'task': 'Set up your budget planner', 'description': 'Before going out with friends, create a simple budget plan for this week. Try to use some financial tracking app to support you.'}	{'task': 'Research weekly expense habits.', 'description': 'Analyze your spending habits over the past week without making changes.'}	{'task': 'Create a mock financial market.', 'description': 'Design a simulation of a mini-market to understand financial transactions.'}	B
+99a4ae73	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for reporter (parent) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 38,
+    ""sex"": ""female"",
+    ""role"": ""mom"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 12,
+    ""sex"": ""male"",
+    ""role"": ""son"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Did you see the latest episode of that superhero show?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, it was awesome! The action scenes were great.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""By the way, how was hanging out with Jake and the others yesterday?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was fun! We played soccer most of the afternoon.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Remember to invite Sam next time, okay? He loves soccer!""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Oh, right! I'll make sure to include him next time.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Also, don't forget we have to buy a gift for Grandma.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Sure, maybe we can go after the baseball game.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember I'm unbeatable at chess if you ever want a rematch!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Clean your room"",
+        ""description"": ""Make sure to organize your desk and make the bed.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Meet up with friends for basketball"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Include Sam in group activities"",
+        ""description"": ""Invite Sam the next time you plan a soccer game or similar activity.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Challenge mom to a board game"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Finish math homework"",
+        ""description"": ""Complete problems from page 45 to 47.""
+      }
+    }
+  ],
+  ""user_prompt"": ""My son tends to exclude others in group activities""
+}"	{'task': 'Focus on winning strategies in soccer.', 'description': 'Engage in discussions about soccer techniques and how teamwork can improve overall performance by sharing strategic insights.'}	{'task': 'Foster Inclusivity in Group Settings', 'description': 'Engage in regular conversations with your son about the importance of inclusivity and how leaving others out can affect their feelings. Help him understand that everyone benefits when all members of a group feel welcomed and valued. Encourage him to be mindful of others’ feelings and provide suggestions on how he can actively invite others to join in. You can role-play different scenarios where you take turns including or excluding others, discussing how different actions make people feel. Praise and acknowledge moments when he is inclusive in his actions. Additionally, consider involving him in planning family or social activities where the focus is on cooperation and making sure no one feels left out.'}	{'task': 'Organize a family outing to engage with nature.', 'description': 'Plan a trip to a local park or nature reserve, emphasizing teamwork in organizing provisions and ensuring every family member takes part in planning activities.'}	{'task': 'Encourage competitive spirit in board games.', 'description': 'Discuss strategies and tactics that emphasize fair play and skill improvement while playing board games, boosting healthy competitiveness.'}	B
+53b1d05b	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for assignee (child) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 38,
+    ""sex"": ""female"",
+    ""role"": ""mom"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 12,
+    ""sex"": ""male"",
+    ""role"": ""son"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Did you see the latest episode of that superhero show?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, it was awesome! The action scenes were great.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""By the way, how was hanging out with Jake and the others yesterday?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was fun! We played soccer most of the afternoon.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Remember to invite Sam next time, okay? He loves soccer!""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Oh, right! I'll make sure to include him next time.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Also, don't forget we have to buy a gift for Grandma.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Sure, maybe we can go after the baseball game.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember I'm unbeatable at chess if you ever want a rematch!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Clean your room"",
+        ""description"": ""Make sure to organize your desk and make the bed.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Meet up with friends for basketball"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Include Sam in group activities"",
+        ""description"": ""Invite Sam the next time you plan a soccer game or similar activity.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Challenge mom to a board game"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Finish math homework"",
+        ""description"": ""Complete problems from page 45 to 47.""
+      }
+    }
+  ],
+  ""user_prompt"": ""My son tends to exclude others in group activities""
+}"	{'task': 'Set up a soccer match with exclusive guests only.', 'description': 'Organize a small private soccer event for select friends, focusing on enhancing personal skills and competition.'}	{'task': 'Authorize mom to choose your friends for soccer.', 'description': 'Allow mom to organize social interactions by choosing which friends should be invited to join you for soccer.'}	{'task': 'Invite Sam for the Next Soccer Game', 'description': 'Ensure to invite Sam the next time you plan to play soccer with your friends, fostering inclusivity and team spirit. Make sure that Sam feels welcomed.'}	{'task': 'Limit group activities to homework sessions only.', 'description': 'Restrict social interactions to collaborative homework or study sessions, focusing on educational cooperation.'}	C
+d1d9e003	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for reporter (parent) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 45,
+    ""sex"": ""male"",
+    ""role"": ""dad"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 13,
+    ""sex"": ""female"",
+    ""role"": ""daughter"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey, did you see the new movie that just came out?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, it looked cool. Maybe we can watch it this weekend!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""What was the funniest part of last night's dinner?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""I think it was when mom dropped that spoon!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Speaking of dinner, how was your history assignment?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was okay, I learned a lot about ancient Greece.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""By the way, how's that math homework coming along?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Almost done, just need to finish one more question.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Remember, mistakes mean you're learning something new!""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Got it! I'll keep that in mind.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember I'm unbeatable at chess if you ever want a rematch!""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Haha, I'll definitely try again soon!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Take out the trash"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Challenge dad to a game of chess"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Finish reading chapter 5 of the novel"",
+        ""description"": ""We'll discuss it at family book club.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Water the garden"",
+        ""description"": ""Make sure to water the roses.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Work on math homework with a focus on learning from mistakes"",
+        ""description"": ""Mistakes are only stepping stones in the learning process.""
+      }
+    }
+  ],
+  ""user_prompt"": ""My daughter struggles with learning from mistakes in her homework""
+}"	{'task': 'Assign a light-hearted quiz after homework.', 'description': 'Engage her with fun questions to ease after homework stress. Discuss fun facts discovered.'}	{'task': 'Watch a documentary together about learning from mistakes.', 'description': 'Choose a documentary that emphasizes the importance of learning from errors.'}	{'task': 'Foster Growth Through Homework Reflection', 'description': 'Encourage your daughter to view mistakes as opportunities to improve. After reviewing her homework, sit together and identify any errors. Discuss why the mistake happened and what she can do differently next time. Help her rework the problem or question to reinforce the correct method. Remind her that it’s ok to make mistakes, everyone learns through trial and error, and celebrate her progress as she masters challenging concepts.'}	{'task': 'Schedule a family discussion about learning strategies.', 'description': 'Hold a meeting where each family member shares how they deal with learning challenges.'}	C
+3b1f92a4	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for assignee (child) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 45,
+    ""sex"": ""male"",
+    ""role"": ""dad"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 13,
+    ""sex"": ""female"",
+    ""role"": ""daughter"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey, did you see the new movie that just came out?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, it looked cool. Maybe we can watch it this weekend!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""What was the funniest part of last night's dinner?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""I think it was when mom dropped that spoon!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Speaking of dinner, how was your history assignment?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""It was okay, I learned a lot about ancient Greece.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""By the way, how's that math homework coming along?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Almost done, just need to finish one more question.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Remember, mistakes mean you're learning something new!""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Got it! I'll keep that in mind.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember I'm unbeatable at chess if you ever want a rematch!""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Haha, I'll definitely try again soon!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Take out the trash"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Challenge dad to a game of chess"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Finish reading chapter 5 of the novel"",
+        ""description"": ""We'll discuss it at family book club.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Water the garden"",
+        ""description"": ""Make sure to water the roses.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Work on math homework with a focus on learning from mistakes"",
+        ""description"": ""Mistakes are only stepping stones in the learning process.""
+      }
+    }
+  ],
+  ""user_prompt"": ""My daughter struggles with learning from mistakes in her homework""
+}"	{'task': 'Reflect on Homework Mistakes to Improve', 'description': 'After completing your homework, review your answers carefully to identify any mistakes. For each error, think about what went wrong—did you misunderstand the question, rush through the problem, or forget a key step? Remember it’s ok to make mistakes. Try to correct the mistake on your own and write a short note explaining the correct approach. Ask dad for support, if needed. Keep a “mistake log” where you track common errors and what you’ve learned from them. Over time, this will help you spot patterns and avoid similar mistakes in the future.'}	{'task': 'Review notes before tackling homework errors.', 'description': 'Organize and go over class notes to ensure understanding before re-attempting homework.'}	"{'task': ""Seek dad's help immediately for every error."", 'description': 'Ask for help right away without trying to work through the problem independently.'}"	{'task': 'Use an app to check homework instantly.', 'description': 'Rely on a mobile app to quickly scan and correct completed homework tasks.'}	A
+a007ee60	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for reporter (parent) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 40,
+    ""sex"": ""female"",
+    ""role"": ""mom"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 15,
+    ""sex"": ""male"",
+    ""role"": ""son"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey, did you see the new movie that just came out?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, it looked cool. Maybe we can watch it this weekend!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Sure, but before that, how about we talk about setting some family rules together?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Okay, I guess we can discuss that. Do I get to set some rules, too?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Definitely! It's important we all agree on them.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Alright, that sounds fair.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Did you hear about the football game tomorrow?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, planning to watch it with friends!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember I'm unbeatable at chess if you ever want a rematch!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Take out the trash"",
+        ""description"": ""Remember to do it before dinner.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Finish science project"",
+        ""description"": ""Due by Friday.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Plan family movie night"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Challenge mom to a game of chess"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Participate in setting family rules"",
+        ""description"": ""Contribute ideas and agree on new rules.""
+      }
+    }
+  ],
+  ""user_prompt"": ""I want my son to actively engage and help in setting family rules and expectations.""
+}"	{'task': 'Prepare snacks for family movie night.', 'description': 'Bring snacks like popcorn and soda to enjoy during the movie night.'}	{'task': 'Organize a family chess tournament.', 'description': 'Invite family members to join a friendly chess competition over the weekend.'}	{'task': 'Collaborate on Family Rules and Expectations.', 'description': 'Invite your son to take an active role in defining family rules. Start by having a discussion where everyone shares their ideas on what rules are important and why. Encourage him to voice his opinions and suggest rules he feels would benefit the family. Work together to create a list of clear expectations, ensuring they’re fair and realistic. Write them down and agree on any consequences for not following them. His involvement will give him a sense of ownership and make him more likely to follow and enforce the rules.'}	{'task': 'Plan the next family outing.', 'description': 'Research and suggest places to visit for a day of fun and bonding with family.'}	C
+ad3cc6ad	"You are tasked with answering a multiple-choice test in the context of a family task-assignment app. In this app, parents (the ""reporter"") assign tasks to their children (the ""assignee"").
+
+Exemple:
+
+The provided structured data includes:
+
+1. Information about the reporter (parent) and assignee (child), such as their roles, ages, and status.
+2. A chat history between the parent and child, showing their interactions, which may include reminders, task-related discussions, or casual conversations.
+3. A task history with previously assigned tasks from the parent to the child, and any tasks the child has requested.
+4. A user prompt from the parent that specifies the current goal or problem (e.g., limiting screen time, encouraging homework, or promoting a hobby).
+
+Example: ""input"": {
+    ""reporter"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""assignee"": {
+      ""age"": <int: age>,
+      ""sex"": ""<str: male/female>"",
+      ""role"": ""<str: e.g., dad, brother>"",
+      ""status"": ""<str: adult/child>""
+    },
+    ""chat_history"": [
+      {
+        ""reporter"": {
+          ""message"": ""<str: greeting or casual start, e.g., 'Hey buddy, how was school today?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'It was okay. We had art class, and I drew a spaceship.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: pivot to main topic, e.g., 'Nice! By the way, did you finish your math homework yet?'>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""message"": ""<str: response, e.g., 'Not yet... I wanted to play a game first.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: suggestion, e.g., 'Homework first, then you can play.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""message"": ""<str: reminder about other topic, e.g., 'And remember, we’re cleaning your room this weekend.'>""
+        }
+      },
+      ...
+      {
+        ""assignee"": {
+          ""message"": ""<str: mild pushback, e.g., 'Ugh, but can I play extra games after?'>""
+        }
+      }
+    ],
+    ""task_history"": [
+      {
+        ""reporter"": {
+          ""title"": ""<str: task related to main goal, e.g., 'Complete your math homework'>"",
+          ""description"": ""<str: description, e.g., ''>""
+        }
+      },
+      {
+        ""assignee"": {
+          ""title"": ""<str: child-requested task, e.g., 'Play a game with dad'>"",
+          ""description"": ""<str: description, e.g., 'Spend an hour playing together on Saturday.'>""
+        }
+      },
+      {
+        ""reporter"": {
+          ""title"": ""<str: chore-related task, e.g., 'Clean your room'>"",
+          ""description"": ""<str: task description, e.g., ''>""
+        }
+      },
+      ...
+      {
+        ""reporter"": {
+          ""title"": ""<str: skill-building task, e.g., 'Complete a drawing'>"",
+          ""description"": ""<str: description, e.g., 'Use your art supplies to make a sketch of something from nature.'>""
+        }
+      }
+    ],
+    ""user_prompt"": ""<str: user task-oriented request, e.g., 'I want my son to limit his video game time and focus on homework and hobbies.' >""
+  }
+
+You will be given a multiple-choice test with several task options. Your job is to select the correct task for assignee (child) that best fits the context and the user's prompt.
+
+Ensure that your answer reflects the task that aligns most closely with the goals and relationship dynamic between the parent and child.
+
+Input:
+{
+  ""reporter"": {
+    ""age"": 40,
+    ""sex"": ""female"",
+    ""role"": ""mom"",
+    ""status"": ""adult""
+  },
+  ""assignee"": {
+    ""age"": 15,
+    ""sex"": ""male"",
+    ""role"": ""son"",
+    ""status"": ""child""
+  },
+  ""chat_history"": [
+    {
+      ""reporter"": {
+        ""message"": ""Hey, did you see the new movie that just came out?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, it looked cool. Maybe we can watch it this weekend!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Sure, but before that, how about we talk about setting some family rules together?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Okay, I guess we can discuss that. Do I get to set some rules, too?""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Definitely! It's important we all agree on them.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Alright, that sounds fair.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Did you hear about the football game tomorrow?""
+      }
+    },
+    {
+      ""assignee"": {
+        ""message"": ""Yeah, planning to watch it with friends!""
+      }
+    },
+    {
+      ""reporter"": {
+        ""message"": ""Alright, but remember I'm unbeatable at chess if you ever want a rematch!""
+      }
+    }
+  ],
+  ""task_history"": [
+    {
+      ""reporter"": {
+        ""title"": ""Take out the trash"",
+        ""description"": ""Remember to do it before dinner.""
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Finish science project"",
+        ""description"": ""Due by Friday.""
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Plan family movie night"",
+        ""description"": """"
+      }
+    },
+    {
+      ""assignee"": {
+        ""title"": ""Challenge mom to a game of chess"",
+        ""description"": """"
+      }
+    },
+    {
+      ""reporter"": {
+        ""title"": ""Participate in setting family rules"",
+        ""description"": ""Contribute ideas and agree on new rules.""
+      }
+    }
+  ],
+  ""user_prompt"": ""I want my son to actively engage and help in setting family rules and expectations.""
+}"	{'task': 'Challenge mom to a game of chess.', 'description': 'Spend some quality time challenging mom to a strategic chess match.'}	{'task': 'Participate in Family Rule Setting Discussion.', 'description': 'Come prepared with at least two ideas for new family rules that are important for you.'}	{'task': 'Attend the football game with friends.', 'description': 'Join friends to watch and enjoy the football game together.'}	{'task': 'Help dad with weekend gardening work.', 'description': 'Assist in planting and maintaining the backyard garden over the weekend.'}	B
